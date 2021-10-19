@@ -4,6 +4,8 @@ import random
 import string
 import random
 
+import time
+
 import sql
 
 from telebot import types
@@ -21,21 +23,23 @@ class user():
     chatId = ''
     
 
-    TelegramChannel = []
-    DiscordChannel = []
-    VKChannel = []
+    TelegramChannels = []
+    DiscordChannels = []
+    VKChannels = []
 
-    ChatIdCommand = []
-    Post = []
+    ChatIdCommands = []
+    Posts = []
     def __init__(self, chatId) -> None:
         self.code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=lenCode))
         self.chatId = chatId
 
         if(sql.search(chatId)):
-            self.id, self.code, self.chatId, self.TelegramChannel, self.DiscordChannel, self.VKChannel, self.ChatIdCommand, self.Post = sql.get(chatId)
+            self.id, self.code, self.chatId, self.TelegramChannels, self.DiscordChannels, self.VKChannels, self.ChatIdCommands, self.Posts = sql.get(chatId)
         else:
-            self.id = sql.add(self.code, chatId, self.TelegramChannel, self.DiscordChannel, self.VKChannel, self.ChatIdCommand, self.Post)
+            self.id = sql.add(self.code, chatId, self.TelegramChannels, self.DiscordChannels, self.VKChannels, self.ChatIdCommands, self.Posts)
 
+    def GET(self):
+        print(sql.get(self.chatId))
 
 @bot.message_handler(commands=['start'])
 def welcome(message):                                       #Создам класс пользователя, отправляем ему приветственное сообщение 
@@ -57,9 +61,12 @@ def welcome(message):                                       #Создам кла
     bot.send_message(message.chat.id, config.STARTMESSAGE, parse_mode="html", reply_markup=markup)
 
 
-@bot.message_handler(func=lambda message: message.forward_from_chat)
-def posts_from_channels(message):
-    print(message.text)
+@bot.message_handler(content_types=['text'])
+def lalala(message):
+    text = message.text
+    if(text == "Добавить соц. сеть"):
+        chatUser = user(message.chat.id)
+        #Проходим верефикацию и настройку и добавляем
 
 if __name__ == "__main__":
     bot.polling(none_stop=True)
