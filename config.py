@@ -1,1 +1,1 @@
-TOKENBOT = '' #TOKEN Bot HHH
+TOKENBOT = '' #TOKEN Bot
