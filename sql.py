@@ -56,17 +56,17 @@ def append(id, TelegramChannel = None, DiscordChannel = None, VKChannel = None, 
     sql.execute("SELECT * FROM users WHERE id = ?", (id,))
     info = sql.fetchone()
     TelegramChannels = arrayDecode(info[3])
-    if(TelegramChannel != None): TelegramChannels.append(TelegramChannel) 
-
+    if(TelegramChannel != None): TelegramChannels.append(TelegramChannel)
+    
     DiscordChannels = arrayDecode(info[4])
     if(DiscordChannel != None): DiscordChannels.append(DiscordChannel)
-    
+
     VKChannels = arrayDecode(info[5])
     if(VKChannel != None): VKChannels.append(VKChannel)
     
     ChatIdCommands = arrayDecode(info[6])
     if(ChatIdCommand != None): ChatIdCommands.append(ChatIdCommand)
-    
+
     Posts = arrayDecode(info[7])
     if(Post != None): Posts.append(Post)
 
